@@ -342,6 +342,7 @@ class MetaSearchAgent implements MetaSearchAgentType {
       (doc) => doc.pageContent && doc.pageContent.length > 0,
     );
 
+    // when the optimization mode is speed, documents won't be reranked
     if (optimizationMode === 'speed' || this.config.rerank === false) {
       if (filesData.length > 0) {
         const [queryEmbedding] = await Promise.all([

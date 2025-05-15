@@ -121,7 +121,7 @@ export const POST = async (req: Request) => {
       );
     }
 
-    const searchHandler: MetaSearchAgentType = searchHandlers[body.focusMode];
+    const searchHandler: MetaSearchAgentType = searchHandlers[body.focusMode]; // (searchHandlers) this is where the new MetaSearchAgent is created, and different config is passed in
 
     // console.log('Search Handler:', searchHandler);
 
