@@ -24,8 +24,9 @@ export const searchSearxng = async (
   opts?: SearxngSearchOptions,
 ) => {
   const searxngURL = getSearxngApiEndpoint();
-
+  console.log('Original Searxng URL:', searxngURL);
   const url = new URL(`${searxngURL}/search?format=json`);
+  console.log('Searxng URL:', url.toString());
   url.searchParams.append('q', query);
 
   if (opts) {
