@@ -39,6 +39,7 @@ export const searchSearxng = async (
       url.searchParams.append(key, value as string);
     });
   }
+  console.log("Requesting SearXNG with URL:", url.toString());
 
   const res = await axios.get(url.toString());
 
