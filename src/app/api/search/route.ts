@@ -39,7 +39,9 @@ interface ChatRequestBody {
 
 export const POST = async (req: Request) => {
   try {
+    console.log("Received POST /api/search");
     const body: ChatRequestBody = await req.json();
+    // console.log("Payload:", body);
 
     if (!body.focusMode || !body.query) {
       return Response.json(
@@ -97,6 +99,9 @@ export const POST = async (req: Request) => {
         .model as unknown as BaseChatModel | undefined;
     }
 
+    // console.log('Chat Model Provider:', chatModelProvider);
+    // console.log('Chat Model:', chatModel);
+
     if (
       embeddingModelProviders[embeddingModelProvider] &&
       embeddingModelProviders[embeddingModelProvider][embeddingModel]
@@ -105,6 +110,9 @@ export const POST = async (req: Request) => {
         embeddingModel
       ].model as Embeddings | undefined;
     }
+  
+    // console.log('Chat Model:', llm);
+    // console.log('Embedding Model:', embeddings);
 
     if (!llm || !embeddings) {
       return Response.json(
@@ -115,9 +123,13 @@ export const POST = async (req: Request) => {
 
     const searchHandler: MetaSearchAgentType = searchHandlers[body.focusMode];
 
+    // console.log('Search Handler:', searchHandler);
+
     if (!searchHandler) {
       return Response.json({ message: 'Invalid focus mode' }, { status: 400 });
     }
+
+    // console.log('right before emitter!!!');
 
     const emitter = await searchHandler.searchAndAnswer(
       body.query,

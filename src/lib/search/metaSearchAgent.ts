@@ -81,6 +81,10 @@ class MetaSearchAgent implements MetaSearchAgentType {
           ? await questionOutputParser.parse(input)
           : input;
 
+        console.log('[DEBUG] LLM output:', input);
+        console.log('[DEBUG] Parsed links:', links);
+        console.log('[DEBUG] Parsed question:', question);
+
         if (question === 'not_needed') {
           return { query: '', docs: [] };
         }
@@ -204,7 +208,7 @@ class MetaSearchAgent implements MetaSearchAgentType {
           return { query: question, docs: docs };
         } else {
           question = question.replace(/<think>.*?<\/think>/g, '');
-
+          console.log('right before searchSearxng');
           const res = await searchSearxng(question, {
             language: 'en',
             engines: this.config.activeEngines,
@@ -256,11 +260,13 @@ class MetaSearchAgent implements MetaSearchAgentType {
           if (this.config.searchWeb) {
             const searchRetrieverChain =
               await this.createSearchRetrieverChain(llm);
+              // console.log('searchRetrieverChain', searchRetrieverChain);
 
             const searchRetrieverResult = await searchRetrieverChain.invoke({
               chat_history: processedHistory,
               query,
             });
+            console.log('searchRetrieverResult', searchRetrieverResult);  
 
             query = searchRetrieverResult.query;
             docs = searchRetrieverResult.docs;
