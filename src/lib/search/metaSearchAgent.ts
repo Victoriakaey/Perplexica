@@ -309,7 +309,7 @@ class MetaSearchAgent implements MetaSearchAgentType {
     if (docs.length === 0 && fileIds.length === 0) {
       return docs;
     }
-
+    // TODO: log here to see
     const filesData = fileIds
       .map((file) => {
         const filePath = path.join(process.cwd(), 'uploads', file);
